@@ -34,19 +34,22 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         final String url = sharedPreferences.getString(KEY_WIDGET_URL + appWidgetId, "");
         final String payload = sharedPreferences.getString(KEY_WIDGET_PAYLOAD + appWidgetId, "");
 
-        // Create on click intent. Valid uri?
-        final PendingIntent pendingIntent;
-        if (!TextUtils.isEmpty(url)) {
+        final PendingIntent pendingIntentAction;
+        {
             final Intent intent = HassService.createIntent(context, url, payload);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                pendingIntent = PendingIntent.getForegroundService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+                pendingIntentAction = PendingIntent.getForegroundService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
             } else {
-                pendingIntent = PendingIntent.getService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+                pendingIntentAction = PendingIntent.getService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
             }
-        } else {
+        }
+
+        final PendingIntent pendingIntentConfiguration;
+        {
             final Intent intent = new Intent(context, WidgetConfigurationActivity.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+            pendingIntentConfiguration = PendingIntent.getActivity(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
         }
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.appwidget_layout);
@@ -54,8 +57,13 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         // Set name to widget.
         views.setTextViewText(R.id.name, name);
 
-        // Get the layout for the App Widget and attach an on-click listener to the root view.
-        views.setOnClickPendingIntent(R.id.root, pendingIntent);
+        if (!TextUtils.isEmpty(url)) {
+            views.setOnClickPendingIntent(R.id.root, pendingIntentAction);
+        } else {
+            views.setOnClickPendingIntent(R.id.root, pendingIntentConfiguration);
+        }
+
+        views.setOnClickPendingIntent(R.id.settings, pendingIntentConfiguration);
 
         // Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
