@@ -1,7 +1,6 @@
 package com.fjun.hassiowidgets;
 
-import java.util.HashMap;
-
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,9 +17,9 @@ public interface HassApi {
      * Do a generic API call to hass.io.
      *
      * @param url the relative path against host. e.g. /api/services/scene/turn_on
-     * @param body key/values to add as json body. e.g. .put("entity_id", "scene.movie")
+     * @param body raw json to send (or empty), e.g. {"entity_id" : "scene.movie"}
      * @param apiKey the api key to use.
      */
     @POST
-    Call<ResponseBody> generic(@Url String url, @Body HashMap<String, Object> body, @Header("x-ha-access") String apiKey);
+    Call<ResponseBody> generic(@Url String url, @Body RequestBody body, @Header("x-ha-access") String apiKey);
 }

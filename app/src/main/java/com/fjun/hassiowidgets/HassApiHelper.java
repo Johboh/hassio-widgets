@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import java.util.HashMap;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -28,7 +29,7 @@ class HassApiHelper {
      * Create a Call.
      *
      * @param url the relative path against host. e.g. /api/services/scene/turn_on
-     * @param body key/values to add as json body. e.g. .put("entity_id", "scene.movie")
+     * @param body raw json to send (or empty), e.g. {"entity_id" : "scene.movie"}
      *
      * @return a call, or null if some of the necessary parameters is missing (e.q. host)
      */
@@ -36,7 +37,7 @@ class HassApiHelper {
     static Call<ResponseBody> create(
             @NonNull Context context,
             @NonNull String url,
-            @NonNull HashMap<String, Object> body) {
+            @Nullable String body) {
         // Read host and API key.
         final SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String host = sharedPreferences.getString(KEY_PREFS_HOST, "");
@@ -60,6 +61,13 @@ class HassApiHelper {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        return retrofit.create(HassApi.class).generic(url, body, apiKey);
+        final RequestBody requestBody;
+        if (!TextUtils.isEmpty(body)) {
+            requestBody = RequestBody.create(MediaType.parse("application/json"), body);
+        } else {
+            requestBody = RequestBody.create(MediaType.parse("text/plain"), "");
+        }
+
+        return retrofit.create(HassApi.class).generic(url, requestBody, apiKey);
     }
 }
