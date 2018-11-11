@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
@@ -22,11 +23,11 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            updateAppWidget(context, appWidgetManager, appWidgetId, false);
         }
     }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, boolean running) {
         final SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         // Create an Intent to start background service
@@ -57,13 +58,18 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         // Set name to widget.
         views.setTextViewText(R.id.name, name);
 
-        if (!TextUtils.isEmpty(url)) {
-            views.setOnClickPendingIntent(R.id.root, pendingIntentAction);
-        } else {
-            views.setOnClickPendingIntent(R.id.root, pendingIntentConfiguration);
+        if (!running) {
+            if (!TextUtils.isEmpty(url)) {
+                views.setOnClickPendingIntent(R.id.root, pendingIntentAction);
+            } else {
+                views.setOnClickPendingIntent(R.id.root, pendingIntentConfiguration);
+            }
+
+            views.setOnClickPendingIntent(R.id.settings, pendingIntentConfiguration);
         }
 
-        views.setOnClickPendingIntent(R.id.settings, pendingIntentConfiguration);
+        views.setViewVisibility(R.id.progress, running ? View.VISIBLE : View.GONE);
+        views.setViewVisibility(R.id.settings, !running ? View.VISIBLE : View.GONE);
 
         // Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

@@ -6,17 +6,28 @@
     android:background="#ffffff"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/settings"
+    <FrameLayout
+        android:id="@+id/top_container"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignParentEnd="true"
         android:padding="5dp"
-        android:src="@mipmap/baseline_settings_black"/>
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/baseline_settings_black"/>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/name"
-        android:layout_below="@+id/settings"
+        android:layout_below="@+id/top_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
