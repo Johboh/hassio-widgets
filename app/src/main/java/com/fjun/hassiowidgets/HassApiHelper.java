@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import java.util.HashMap;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -30,7 +32,11 @@ class HassApiHelper {
      *
      * @return a call, or null if some of the necessary parameters is missing (e.q. host)
      */
-    static Call<ResponseBody> create(Context context, String url, HashMap<String, Object> body) {
+    @Nullable
+    static Call<ResponseBody> create(
+            @NonNull Context context,
+            @NonNull String url,
+            @NonNull HashMap<String, Object> body) {
         // Read host and API key.
         final SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String host = sharedPreferences.getString(KEY_PREFS_HOST, "");

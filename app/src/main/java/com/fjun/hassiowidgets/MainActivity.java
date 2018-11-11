@@ -2,9 +2,10 @@ package com.fjun.hassiowidgets;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import static com.fjun.hassiowidgets.Constants.KEY_PREFS_API_KEY;
 import static com.fjun.hassiowidgets.Constants.KEY_PREFS_HOST;
