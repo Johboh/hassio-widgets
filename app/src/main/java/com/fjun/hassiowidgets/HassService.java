@@ -1,8 +1,12 @@
 package com.fjun.hassiowidgets;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -24,6 +28,16 @@ public class HassService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            final String channelId = getString(R.string.app_name);
+            final NotificationChannel notificationChannel = new NotificationChannel(channelId, channelId, NotificationManager.IMPORTANCE_MIN);
+            notificationChannel.setDescription(channelId);
+            notificationChannel.setSound(null, null);
+
+            notificationManager.createNotificationChannel(notificationChannel);
+            startForeground(1, new Notification.Builder(this, channelId).build());
+        }
 
         if (intent == null) {
             Log.d(HassService.class.getName(), "No intent available.");
@@ -46,6 +60,10 @@ public class HassService extends IntentService {
             Log.d(MainActivity.class.getName(), "Retofit succeeded");
         } catch (IOException e) {
             Log.e(MainActivity.class.getName(), "Retofit failed: " + e.getMessage());
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
         }
     }
 

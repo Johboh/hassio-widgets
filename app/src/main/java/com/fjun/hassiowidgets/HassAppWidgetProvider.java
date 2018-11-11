@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.text.TextUtils;
 import android.widget.RemoteViews;
 
@@ -37,7 +38,11 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         final PendingIntent pendingIntent;
         if (!TextUtils.isEmpty(url)) {
             final Intent intent = HassService.createIntent(context, url, payload);
-            pendingIntent = PendingIntent.getService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                pendingIntent = PendingIntent.getForegroundService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+            } else {
+                pendingIntent = PendingIntent.getService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+            }
         } else {
             final Intent intent = new Intent(context, WidgetConfigurationActivity.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
