@@ -70,6 +70,8 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
 
         views.setViewVisibility(R.id.progress, running ? View.VISIBLE : View.GONE);
         views.setViewVisibility(R.id.settings, !running ? View.VISIBLE : View.GONE);
+        views.setBoolean(R.id.root, "setEnabled", !running);
+        views.setBoolean(R.id.settings, "setEnabled", !running);
 
         // Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
