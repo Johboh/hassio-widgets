@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">Hassio widgets</string>
+    <string name="app_name">Hass.io widgets</string>
+    <string name="hass_io_host_name_ip">hass.io host name/IP</string>
+    <string name="hass_io_api_key">hass.io API key</string>
+    <string name="save">Save</string>
 </resources>
