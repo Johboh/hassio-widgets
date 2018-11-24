@@ -52,7 +52,7 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
                 final Intent resultIntent = new Intent();
                 resultIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
                 setResult(RESULT_OK, resultIntent);
-                HassAppWidgetProvider.updateAppWidget(this, AppWidgetManager.getInstance(this), widgetId, false);
+                HassAppWidgetProvider.updateAppWidget(this, AppWidgetManager.getInstance(this), widgetId, false, null);
             }
 
             finish();

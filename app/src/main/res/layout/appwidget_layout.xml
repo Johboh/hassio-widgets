@@ -19,11 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@mipmap/baseline_settings_black"/>
-
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </FrameLayout>
 
     <TextView
@@ -44,6 +39,18 @@
         android:padding="5dp"
         android:layout_below="@+id/name"
         android:layout_alignParentStart="true"
-        android:background="#ffffff"/>
+        android:background="#ffffff">
+
+        <ImageView
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
 </RelativeLayout>

@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import androidx.annotation.Nullable;
+
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static com.fjun.hassiowidgets.Constants.KEY_WIDGET_NAME;
 import static com.fjun.hassiowidgets.Constants.KEY_WIDGET_PAYLOAD;
@@ -23,11 +25,15 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, false);
+            updateAppWidget(context, appWidgetManager, appWidgetId, false, null);
         }
     }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, boolean running) {
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, boolean running, @Nullable Boolean successful) {
+        if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            return;
+        }
+
         final SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         // Create an Intent to start background service
@@ -69,9 +75,15 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         }
 
         views.setViewVisibility(R.id.progress, running ? View.VISIBLE : View.GONE);
-        views.setViewVisibility(R.id.settings, !running ? View.VISIBLE : View.GONE);
+        views.setViewVisibility(R.id.result, successful != null ? View.VISIBLE : View.GONE);
         views.setBoolean(R.id.root, "setEnabled", !running);
         views.setBoolean(R.id.settings, "setEnabled", !running);
+
+        if (successful != null && successful) {
+            views.setImageViewResource(R.id.result, R.mipmap.baseline_thumb_up_black);
+        } else {
+            views.setImageViewResource(R.id.result, R.mipmap.baseline_thumb_down_black);
+        }
 
         // Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

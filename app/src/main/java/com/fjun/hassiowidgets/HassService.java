@@ -42,7 +42,7 @@ public class HassService extends IntentService {
 
         if (intent == null) {
             Log.d(HassService.class.getName(), "No intent available.");
-            stop();
+            stop(AppWidgetManager.INVALID_APPWIDGET_ID, false);
             return;
         }
 
@@ -51,7 +51,7 @@ public class HassService extends IntentService {
         final String url = intent.getStringExtra(EXTRA_URL);
         if (TextUtils.isEmpty(url)) {
             Log.d(HassService.class.getName(), "Missing url.");
-            stop();
+            stop(widgetId, false);
             return;
         }
         final String payload = intent.getStringExtra(EXTRA_PAYLOAD);
@@ -59,22 +59,24 @@ public class HassService extends IntentService {
         final Call<ResponseBody> hassApi = HassApiHelper.create(this, url, payload);
         if (hassApi == null) {
             Log.d(HassService.class.getName(), "No hassApi available. Are you missing a valid hostname?");
-            stop();
+            stop(widgetId, false);
             return;
         }
+
+        boolean successful = false;
         try {
-            HassAppWidgetProvider.updateAppWidget(this, AppWidgetManager.getInstance(this), widgetId, true);
-            hassApi.execute();
+            HassAppWidgetProvider.updateAppWidget(this, AppWidgetManager.getInstance(this), widgetId, true, null);
+            successful = hassApi.execute().isSuccessful();
             Log.d(MainActivity.class.getName(), "Retofit succeeded");
         } catch (IOException e) {
             Log.e(MainActivity.class.getName(), "Retofit failed: " + e.getMessage());
         }
 
-        HassAppWidgetProvider.updateAppWidget(this, AppWidgetManager.getInstance(this), widgetId, false);
-        stop();
+        stop(widgetId, successful);
     }
 
-    private void stop() {
+    private void stop(int widgetId, boolean successful) {
+        HassAppWidgetProvider.updateAppWidget(this, AppWidgetManager.getInstance(this), widgetId, false, successful);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             stopForeground(true);
         }
