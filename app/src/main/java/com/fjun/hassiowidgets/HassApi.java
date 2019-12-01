@@ -18,8 +18,8 @@ public interface HassApi {
      *
      * @param url the relative path against host. e.g. /api/services/scene/turn_on
      * @param body raw json to send (or empty), e.g. {"entity_id" : "scene.movie"}
-     * @param apiKey the api key to use.
+     * @param token Long-Lived Access Token
      */
     @POST
-    Call<ResponseBody> generic(@Url String url, @Body RequestBody body, @Header("x-ha-access") String apiKey);
+    Call<ResponseBody> generic(@Url String url, @Body RequestBody body, @Header("Authorization") String token);
 }

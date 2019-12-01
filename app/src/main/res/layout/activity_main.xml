@@ -14,18 +14,18 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:hint="@string/hass_io_host_name_ip"
-        app:layout_constraintBottom_toTopOf="@+id/api_key"
+        app:layout_constraintBottom_toTopOf="@+id/token"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/api_key"
+        android:id="@+id/token"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="@string/hass_io_api_key"
+        android:hint="@string/hass_io_token"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/save"
         app:layout_constraintEnd_toEndOf="parent"

@@ -16,7 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.fjun.hassiowidgets.Constants.DEFAULT_PORT;
-import static com.fjun.hassiowidgets.Constants.KEY_PREFS_API_KEY;
+import static com.fjun.hassiowidgets.Constants.KEY_PREFS_TOKEN;
 import static com.fjun.hassiowidgets.Constants.KEY_PREFS_HOST;
 import static com.fjun.hassiowidgets.Constants.PREFS_NAME;
 
@@ -24,6 +24,8 @@ import static com.fjun.hassiowidgets.Constants.PREFS_NAME;
  * Helper class for creating the HassApi based on host and api key.
  */
 class HassApiHelper {
+
+    private static final String BEARER_PATTERN = "Bearer %s";
 
     /**
      * Create a Call.
@@ -54,8 +56,8 @@ class HassApiHelper {
             host = String.format(Locale.getDefault(), "http://%s", host);
         }
 
-        // Support empty API key, if there is no one required.
-        final String apiKey = sharedPreferences.getString(KEY_PREFS_API_KEY, "");
+        // Support empty token, if there is no one required.
+        final String token = sharedPreferences.getString(KEY_PREFS_TOKEN, "");
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(host)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -68,6 +70,7 @@ class HassApiHelper {
             requestBody = RequestBody.create(MediaType.parse("text/plain"), "");
         }
 
-        return retrofit.create(HassApi.class).generic(url, requestBody, apiKey);
+        String bearer = String.format(BEARER_PATTERN, token);
+        return retrofit.create(HassApi.class).generic(url, requestBody, bearer);
     }
 }
