@@ -46,9 +46,9 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
             final Intent intent = HassService.createIntent(context, url, payload);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                pendingIntentAction = PendingIntent.getForegroundService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+                pendingIntentAction = PendingIntent.getForegroundService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + PendingIntent.FLAG_MUTABLE);
             } else {
-                pendingIntentAction = PendingIntent.getService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+                pendingIntentAction = PendingIntent.getService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + PendingIntent.FLAG_MUTABLE);
             }
         }
 
@@ -56,7 +56,7 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         {
             final Intent intent = new Intent(context, WidgetConfigurationActivity.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            pendingIntentConfiguration = PendingIntent.getActivity(context, appWidgetId, intent, FLAG_UPDATE_CURRENT);
+            pendingIntentConfiguration = PendingIntent.getActivity(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + PendingIntent.FLAG_MUTABLE);
         }
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.appwidget_layout);
