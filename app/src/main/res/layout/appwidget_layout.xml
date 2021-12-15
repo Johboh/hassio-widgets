@@ -3,41 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
-        android:id="@+id/top_container"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:padding="5dp"
-        android:background="#ffffff"
         android:layout_above="@id/name"
-        android:layout_alignParentEnd="true">
-
-        <ImageView
-            android:id="@+id/settings"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/baseline_settings_black"/>
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/name"
-        android:background="#ffffff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="8dp"
-        android:textSize="10sp"
-        android:layout_centerVertical="true"
-        android:gravity="center_horizontal"
-        tools:text="My name"/>
-
-    <FrameLayout
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:padding="5dp"
-        android:layout_below="@+id/name"
         android:layout_alignParentStart="true"
         android:background="#ffffff">
 
@@ -52,5 +25,33 @@
             android:layout_height="match_parent" />
 
     </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/top_container"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_above="@id/name"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/settings"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@mipmap/baseline_settings_black"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:textSize="11sp"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        tools:text="My name"/>
 
 </RelativeLayout>

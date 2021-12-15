@@ -66,12 +66,12 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
 
         if (!running) {
             if (!TextUtils.isEmpty(url)) {
-                views.setOnClickPendingIntent(R.id.root, pendingIntentAction);
+                views.setOnClickPendingIntent(R.id.name, pendingIntentAction);
             } else {
-                views.setOnClickPendingIntent(R.id.root, pendingIntentConfiguration);
+                views.setOnClickPendingIntent(R.id.name, pendingIntentConfiguration);
             }
 
-            views.setOnClickPendingIntent(R.id.settings, pendingIntentConfiguration);
+            views.setOnClickPendingIntent(R.id.top_container, pendingIntentConfiguration);
         }
 
         views.setViewVisibility(R.id.progress, running ? View.VISIBLE : View.GONE);
