@@ -3,6 +3,7 @@
     android:minHeight="40dp"
     android:updatePeriodMillis="3600000"
     android:previewImage="@drawable/ic_launcher_foreground"
+    android:widgetFeatures="reconfigurable"
     android:initialLayout="@layout/appwidget_layout"
     android:configure="com.fjun.hassiowidgets.WidgetConfigurationActivity"
     android:resizeMode="horizontal|vertical"
