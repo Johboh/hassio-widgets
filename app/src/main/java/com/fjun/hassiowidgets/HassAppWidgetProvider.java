@@ -41,14 +41,19 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         final String url = sharedPreferences.getString(KEY_WIDGET_URL + appWidgetId, "");
         final String payload = sharedPreferences.getString(KEY_WIDGET_PAYLOAD + appWidgetId, "");
 
+        int additionalIntentFlag = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            additionalIntentFlag = PendingIntent.FLAG_MUTABLE;
+        }
+
         final PendingIntent pendingIntentAction;
         {
             final Intent intent = HassService.createIntent(context, url, payload);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                pendingIntentAction = PendingIntent.getForegroundService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + PendingIntent.FLAG_MUTABLE);
+                pendingIntentAction = PendingIntent.getForegroundService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + additionalIntentFlag);
             } else {
-                pendingIntentAction = PendingIntent.getService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + PendingIntent.FLAG_MUTABLE);
+                pendingIntentAction = PendingIntent.getService(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + additionalIntentFlag);
             }
         }
 
@@ -56,7 +61,7 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         {
             final Intent intent = new Intent(context, WidgetConfigurationActivity.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            pendingIntentConfiguration = PendingIntent.getActivity(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + PendingIntent.FLAG_MUTABLE);
+            pendingIntentConfiguration = PendingIntent.getActivity(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + additionalIntentFlag);
         }
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.appwidget_layout);
