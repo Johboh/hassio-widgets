@@ -61,6 +61,7 @@ public class HassAppWidgetProvider extends AppWidgetProvider {
         {
             final Intent intent = new Intent(context, WidgetConfigurationActivity.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
             pendingIntentConfiguration = PendingIntent.getActivity(context, appWidgetId, intent, FLAG_UPDATE_CURRENT + additionalIntentFlag);
         }
 
