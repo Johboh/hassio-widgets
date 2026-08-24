@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Hass.io widgets</string>
-    <string name="hass_io_host_name_ip">hass.io host name/IP</string>
-    <string name="hass_io_token">hass.io Long-Lived Access Token</string>
+    <string name="app_name">HA widgets</string>
+    <string name="hass_io_host_name_ip">HA host name/IP</string>
+    <string name="hass_io_token">Home Assistant Long-Lived Access Token</string>
     <string name="save">Save</string>
     <string name="toast_saved">Parameters saved</string>
     <string name="name_of_widget">Name of widget</string>

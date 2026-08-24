@@ -5,6 +5,7 @@
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
+/.idea/caches/*192.
 app/release
 .DS_Store
 /build
