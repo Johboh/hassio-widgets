@@ -8,6 +8,9 @@ import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import static com.fjun.hassiowidgets.Constants.KEY_WIDGET_NAME;
 import static com.fjun.hassiowidgets.Constants.KEY_WIDGET_PAYLOAD;
@@ -20,6 +23,12 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.appwidget_configuration);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+            return windowInsets;
+        });
 
         final Intent intent = getIntent();
         final Bundle extras = intent.getExtras();
