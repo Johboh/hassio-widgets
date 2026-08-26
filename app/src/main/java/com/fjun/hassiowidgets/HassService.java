@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,7 +38,12 @@ public class HassService extends IntentService {
             notificationChannel.setSound(null, null);
 
             notificationManager.createNotificationChannel(notificationChannel);
-            startForeground(1, new Notification.Builder(this, channelId).build());
+            final Notification notification = new Notification.Builder(this, channelId).build();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SHORT_SERVICE);
+            } else {
+                startForeground(1, notification);
+            }
         }
 
         if (intent == null) {
