@@ -6,8 +6,8 @@ android {
         applicationId "com.fjun.hassiowidgets"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode 8
-        versionName "1.8"
+        versionCode 9
+        versionName "1.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
